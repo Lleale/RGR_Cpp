@@ -1,0 +1,59 @@
+#include <iostream>
+
+using namespace std;
+
+class Matrix{
+    private:
+    int n,m;
+    double ** data;
+    public:
+    Matrix(int newN=0, int newM=0)
+    : n{newN}, m{newM}
+    {
+        data = new double*[n];
+        for (int i=0;i<m;i++){
+            data[i]=new double[m];
+            for (int j=0;j<i;j++)
+            data[i][j]=0;
+        }
+    }
+    ~Matrix(){
+        for (int i=0;i<m;i++){
+            delete data[i];
+        }
+        delete data;
+    }
+    friend ostream& operator<< (ostream &out, const Matrix &mtr);
+    friend istream& operator>> (istream &in, const Matrix &mtr);
+};
+
+ostream& operator<< (ostream &out, const Matrix &mtr){
+    out << "Matrix(" << mtr.n << ',' << mtr.m << ')'<<endl;;
+
+    for (int i=0;i<mtr.m;i++){
+        for (int j=0;j<mtr.n;j++){
+            out<<mtr.data[i][j]<<' ';
+        }
+        out<<endl;
+    }
+    return out;
+}
+
+istream& operator>> (istream &in, const Matrix &mtr){
+    for (int i=0;i<mtr.m;i++){
+        for (int j=0;j<mtr.n;j++){
+            in>>mtr.data[i][j];
+        }
+    }
+    return in;
+}
+
+int main()
+{
+    Matrix mtr(2,3), mtr2(3,3);
+    cout<< mtr <<endl;
+    cin >> mtr2;
+    cout <<endl << mtr2 <<endl;
+
+    return 0;
+}
